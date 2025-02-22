@@ -1,4 +1,4 @@
-export function getDots(
+function getDots(
   data,
   dotCount,
   time,
@@ -56,7 +56,7 @@ export function getDots(
   return dots;
 }
 
-export function getTransform(
+function getTransform(
   transformData,
   size,
   rect
@@ -139,7 +139,7 @@ function toFloat(d, index) {
   return view.getFloat32(0, true);
 }
 
-export function intToByteArray(input) {
+function intToByteArray(input) {
   const arr = new Uint8Array(4);
   const dv = new DataView(arr.buffer);
   dv.setUint32(0, input, true);

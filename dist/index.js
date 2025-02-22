@@ -1,4 +1,4 @@
-export const fetchNeoInkItems = async (id) => {
+const fetchNeoInkItems = async (id) => {
   try {
     const response = await axios.get(NEOINK_DATA_FETCH_URL, {
       params: {
@@ -17,7 +17,7 @@ export const fetchNeoInkItems = async (id) => {
   }
 };
 
-export const fetchNeoInkItemData = async (
+const fetchNeoInkItemData = async (
   item
 ) => {
   try {
@@ -45,7 +45,7 @@ export const fetchNeoInkItemData = async (
   return null;
 };
 
-export const fetchNeoNoteSize = async (
+const fetchNeoNoteSize = async (
   itemData
 ) => {
   const url = `page/${itemData.section}/${itemData.owner}/${itemData.bookCode}/0.json`;
@@ -68,7 +68,7 @@ export const fetchNeoNoteSize = async (
   }
 };
 
-export const fetchNeoPages = async (id) => {
+const fetchNeoPages = async (id) => {
   const items = await fetchNeoInkItems(id);
 
   const pages = [];

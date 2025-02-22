@@ -1,4 +1,9 @@
-const fetchNeoInkItems = async (id) => {
+const NEO_METADATA_FETCH_URL = 'https://neonotes2-d0880.firebaseio.com';
+
+const NEOINK_DATA_FETCH_URL =
+  'https://firebasestorage.googleapis.com/v0/b/neonotes2-d0880.appspot.com/o';
+
+const fetchNeoInkItems = async id => {
   try {
     const response = await axios.get(NEOINK_DATA_FETCH_URL, {
       params: {
@@ -13,9 +18,7 @@ const fetchNeoInkItems = async (id) => {
   }
 };
 
-const fetchNeoInkItemData = async (
-  item
-) => {
+const fetchNeoInkItemData = async item => {
   try {
     const response = await axios.get(
       `${NEOINK_DATA_FETCH_URL}/${encodeURIComponent(item.name)}`,
@@ -37,9 +40,7 @@ const fetchNeoInkItemData = async (
   return null;
 };
 
-const fetchNeoNoteSize = async (
-  itemData
-) => {
+const fetchNeoNoteSize = async itemData => {
   const url = `page/${itemData.section}/${itemData.owner}/${itemData.bookCode}/0.json`;
   const defaultRect = {
     height: 118,
@@ -56,7 +57,7 @@ const fetchNeoNoteSize = async (
   return defaultRect;
 };
 
-const fetchNeoPages = async (id) => {
+const fetchNeoPages = async id => {
   const items = await fetchNeoInkItems(id);
 
   const pages = [];

@@ -31,45 +31,50 @@
       
       const data = await fetchNeoPages(id);
       for (const page of data) {
-        const json = JSON.stringify(data);
+        const json = JSON.stringify(page, null, 2);
         const blob = new Blob([json], { type: "application/json" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `page${page.metadata.pageNumber}.json`;
+        a.download = `page-${page.metadata.pageNumber}.json`;
         document.body.appendChild(a);
         a.click();
         a.remove();
       }
     }
 
-    function downloadCSV() {
-      var url = document.querySelector('input[name="url"]').value;
-      var xhr = new XMLHttpRequest();
-      xhr.open("GET", url, true);
-      xhr.responseType = "json";
-      xhr.onload = function () {
-        var status = xhr.status;
-        if (status === 200) {
-          var data = xhr.response;
-          var csv = "data:text/csv;charset=utf-8,";
-          csv += "Time,Player,Action,Target,Card,Location,Amount,Result\n";
-          data.forEach(function (row) {
-            csv += row.time + "," + row.player + "," + row.action + "," + row.target + "," + row.card + "," + row.location + "," + row.amount + "," + row.result + "\n";
-          });
-          var blob = new Blob([csv], { type: "text/csv" });
-          var url = URL.createObjectURL(blob);
-          var a = document.createElement('a');
-          a.href = url;
-          a.download = 'data.csv';
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-        } else {
-          console.error("Failed to download data");
+    async function downloadCSV() {
+      const urlStr = document.querySelector('input[name="url"]').value;
+
+      let id;
+      if (urlStr.startsWith('https://sharestudio.web.app')) {
+        const url = new URL(urlStr);
+        id = url.searchParams.get('id');
+      } else {
+        id = urlStr;
+      }
+      
+      const data = await fetchNeoPages(id);
+      for (const page of data) {
+        let csv = "data:text/csv;charset=utf-8,";
+        csv += "x,y,pressure,trace,timestamp\n";
+
+        let strokeIndex = 0;
+        for (const stroke of page.strokes) {
+          for (const dot of stroke.dots) {
+            csv += `"${dot.x}","${dot.y}","${dot.pressure}",${strokeIndex + 1},${dot.timestamp}\n`;
+          }
+          strokeIndex++;
         }
-      };
-      xhr.send();
+        const blob = new Blob([csv], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `page-${page.metadata.pageNumber}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }
     }
   </script>
 </head>

@@ -30,17 +30,17 @@
       }
       
       const data = await fetchNeoPages(id);
-      console.log(data);
-      
-      const json = JSON.stringify(data);
-      const blob = new Blob([json], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'data.json';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
+      for (const page of data) {
+        const json = JSON.stringify(data);
+        const blob = new Blob([json], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `page${page.metadata.pageNumber}.json`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }
     }
 
     function downloadCSV() {

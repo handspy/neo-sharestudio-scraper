@@ -8,11 +8,7 @@ const fetchNeoInkItems = async (id) => {
     });
     return response.data.items;
   } catch (error) {
-    if (isCancel(error)) {
-      console.log('Request canceled', error.message);
-    } else {
-      console.error('Error', error);
-    }
+    console.error('Error', error);
     return [];
   }
 };
@@ -36,11 +32,7 @@ const fetchNeoInkItemData = async (
 
     return response.data;
   } catch (error) {
-    if (isCancel(error)) {
-      console.log('Request canceled', error.message);
-    } else {
-      console.error('Error', error);
-    }
+    console.error('Error', error);
   }
   return null;
 };
@@ -59,13 +51,9 @@ const fetchNeoNoteSize = async (
     const response = await axios.get(`${NEO_METADATA_FETCH_URL}/${url}`);
     return response.data;
   } catch (error) {
-    if (isCancel(error)) {
-      console.log('Request canceled', error.message);
-    } else {
-      console.error('Error', error);
-    }
-    return defaultRect;
+    console.error('Error', error);
   }
+  return defaultRect;
 };
 
 const fetchNeoPages = async (id) => {

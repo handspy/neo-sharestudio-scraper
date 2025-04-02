@@ -19,7 +19,7 @@
   <script type="text/javascript" src="dist/index.js"></script>
   <script type="text/javascript">
     async function downloadHsJSON() {
-      const urlStr = document.querySelector('input[name="url"]').value;
+      const urlStr = document.querySelector('input[name="url"]').value.trim();
 
       let id;
       if (urlStr.startsWith('https://sharestudio.web.app')) {
@@ -28,7 +28,7 @@
       } else {
         id = urlStr;
       }
-      
+
       const data = await fetchNeoPages(id);
       for (const page of data) {
         const json = JSON.stringify(page, null, 2);
